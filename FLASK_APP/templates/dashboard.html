@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Wind Turbine | Dashboard</title>
+
+        <link rel="icon" href="{{url_for('static', filename = '/img/core-img/turbine.ico')}}">
+
+        <link href="{{url_for('static', filename = '/css/style.css')}}" rel="stylesheet">
+
+        <link href="{{url_for('static', filename = '/css/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/animate.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/magnific-popup.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/owl.carousel.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/font-awesome.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/elegant-font.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/themify-icons.css')}}" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+        <link href="{{url_for('static', filename = '/css/responsive/responsive.css')}}" rel="stylesheet">
+
+        <script src="{{url_for('static', filename = '/js/script.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.0-alpha/Chart.min.js"></script>
+
+        <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+        <script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>
+
+        <style>
+            canvas {
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+            }
+        </style>
+
+        <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+	    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+	    <script>
+            FusionCharts.ready(function(){
+                var chartObj = new FusionCharts({
+                    type: 'thermometer',
+                    renderAt: 'chart-container-temp',
+                    width: '240',
+                    height: '310',
+                    dataFormat: 'json',
+                    dataSource: {
+                        "chart": {
+                            "caption": "Temperature Monitor",
+                            "subcaption": " Central cold store",
+                            "lowerLimit": "-10",
+                            "upperLimit": "0",
+
+                            "decimals": "1",
+                            "numberSuffix": "°C",
+                            "showhovereffect": "1",
+                            "thmFillColor": "#008ee4",
+                            "showGaugeBorder": "1",
+                            "gaugeBorderColor": "#008ee4",
+                            "gaugeBorderThickness": "2",
+                            "gaugeBorderAlpha": "30",
+                            "thmOriginX": "100",
+                            "chartBottomMargin": "20",
+                            "valueFontColor": "#000000",
+                            "theme": "fusion"
+                        },
+                        "value": "-6",
+                        //All annotations are grouped under this element
+                        "annotations": {
+                            "showbelow": "0",
+                            "groups": [{
+                                //Each group needs a unique ID
+                                "id": "indicator",
+                                "items": [
+                                    //Showing Annotation
+                                    {
+                                        "id": "background",
+                                        //Rectangle item
+                                        "type": "rectangle",
+                                        "alpha": "50",
+                                        "fillColor": "#AABBCC",
+                                        "x": "$gaugeEndX-40",
+                                        "tox": "$gaugeEndX",
+                                        "y": "$gaugeEndY+54",
+                                        "toy": "$gaugeEndY+72"
+                                    }
+                                ]
+                            }]
+
+                        },
+                    },
+                    "events": {
+                        "rendered": function(evt, arg) {
+                            evt.sender.dataUpdate = setInterval(function() {
+                                var value,
+                                    prevTemp = evt.sender.getData(),
+                                    mainTemp = (Math.random() * 10) * (-1),
+                                    diff = Math.abs(prevTemp - mainTemp);
+
+                                diff = diff > 1 ? (Math.random() * 1) : diff;
+                                if (mainTemp > prevTemp) {
+                                    value = prevTemp + diff;
+                                } else {
+                                    value = prevTemp - diff;
+                                }
+
+                                evt.sender.feedData("&value=" + value);
+
+                            }, 3000);
+                            evt.sender.updateAnnotation = function(evtObj, argObj) {
+                                var code,
+                                    chartObj = evtObj.sender,
+                                    val = chartObj.getData(),
+                                    annotations = chartObj.annotations;
+
+                                if (val >= -4.5) {
+                                    code = "#00FF00";
+                                } else if (val < -4.5 && val > -6) {
+                                    code = "#ff9900";
+                                } else {
+                                    code = "#ff0000";
+                                }
+                                annotations.update("background", {
+                                    "fillColor": code
+                                });
+                            };
+                        },
+                        'renderComplete': function(evt, arg) {
+                            evt.sender.updateAnnotation(evt, arg);
+                        },
+                        'realtimeUpdateComplete': function(evt, arg) {
+                            evt.sender.updateAnnotation(evt, arg);
+                        },
+                        'disposed': function(evt, arg) {
+                            clearInterval(evt.sender.dataUpdate);
+                        }
+                    }
+                }
+                );
+                            chartObj.render();
+                        });
+	    </script>
+    </head>
+
+    <body>
+
+        <!-- about section start -->
+        <section class="temperature" id="temperature">
+            <div class="max-width">
+                <h2 class="title">Temperature</h2>
+            </div>
+        </section>
+
+        <div class="about-content">
+            <div class="column left">
+                <div class="container" style="width: 45%;">
+                    <div class="centralize">
+                        <div id="chart-container-temp"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="humidity" id="humidity">
+            <div class="max-width">
+                <h2 class="title">Humidity</h2>
+            </div>
+        </section>
+
+        <div class="column right">
+            <div class="container" style="width: 45%;">
+                <canvas id="myCharttwo" width="200" height="200"></canvas>
+            </div>
+        </div>
+
+        <section class="vibration" id="vibration">
+            <div class="max-width">
+                <h2 class="title">Vibration</h2>
+            </div>
+        </section>
+
+        <div class="column right">
+            <div class="container" style="width: 45%;">
+                <canvas id="myChartthree" width="200" height="200"></canvas>
+            </div>
+        </div>
+
+        <section class="speed" id="speed">
+            <div class="max-width">
+                <h2 class="title">Speed</h2>
+            </div>
+        </section>
+
+        <div class="column right">
+            <div class="centralize">
+                <div id="canvas-holder" style="width:50%">
+                    <canvas id="speedchart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var cty = document.getElementById('myCharttwo').getContext('2d');
+            var myCharttwo = new Chart(cty, {
+                type: 'line',
+                data: {
+                labels: ["03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "00:00"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fill: true,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75, 192, 192, 0.4)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHitRadius: 10,
+                        data: [65, 59, 80, 81, 56, 55, 40, 60],
+                    }, {
+                        label: "My Second dataset",
+                        fill: false,
+                        lineTension: 0.5,
+                        backgroundColor: "rgba(75, 192, 192, 0.4)",
+                        borderColor: "rgb(255, 0, 0)",
+                        borderCapStyle: 'butt',
+                        borderDash: [10, 30],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHitRadius: 10,
+                        data: [62.5, 62.5, 62.5, 62.5, 62.5, 62.5, 62.5, 62.5],
+                    }
+                ]}
+            });
+
+            var ctm = document.getElementById('myChartthree').getContext('2d');
+            var myChartthree = new Chart(ctm, {
+                type: 'line',
+                data: {
+                labels: ["03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "00:00"],
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fill: true,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75, 192, 192, 0.4)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHitRadius: 10,
+                        data: [65, 59, 80, 81, 56, 55, 40, 60],
+                    }, {
+                        label: "My Second dataset",
+                        fill: false,
+                        lineTension: 0.5,
+                        backgroundColor: "rgba(75, 192, 192, 0.4)",
+                        borderColor: "rgb(255, 0, 0)",
+                        borderCapStyle: 'butt',
+                        borderDash: [10, 30],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHitRadius: 10,
+                        data: [62.5, 62.5, 62.5, 62.5, 62.5, 62.5, 62.5, 62.5],
+                    }
+                ]}
+            });
+            
+
+            var randomScalingFactor = function() {
+            return Math.round(Math.random() * 100);
+            };
+
+            var randomData = function () {
+            return [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+            ];
+            };
+
+            var randomValue = function (data) {
+            return Math.max.apply(null, data) * Math.random();
+            };
+
+            var data = randomData();
+            var value = randomValue(data);
+
+            var config = {
+            type: 'gauge',
+            data: {
+                //labels: ['Success', 'Warning', 'Warning', 'Error'],
+                datasets: [{
+                data: data,
+                value: value,
+                backgroundColor: ['green', 'yellow', 'orange', 'red'],
+                borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                display: true,
+                text: 'Wind Turbine Speed'
+                },
+                layout: {
+                padding: {
+                    bottom: 30
+                }
+                },
+                needle: {
+                // Needle circle radius as the percentage of the chart area width
+                radiusPercentage: 2,
+                // Needle width as the percentage of the chart area width
+                widthPercentage: 3.2,
+                // Needle length as the percentage of the interval between inner radius (0%) and outer radius (100%) of the arc
+                lengthPercentage: 80,
+                // The color of the needle
+                color: 'rgba(0, 0, 0, 1)'
+                },
+                valueLabel: {
+                formatter: Math.round
+                }
+            }
+            };
+
+            window.onload = function() {
+            var ctv = document.getElementById('speedchart').getContext('2d');
+            window.myGauge = new Chart(ctv, config);
+            };
+
+            document.getElementById('randomizeData').addEventListener('click', function() {
+            config.data.datasets.forEach(function(dataset) {
+                dataset.data = randomData();
+                dataset.value = randomValue(dataset.data);
+            });
+
+            window.myGauge.update();
+            });
+        </script>
+    </body>
+</html>

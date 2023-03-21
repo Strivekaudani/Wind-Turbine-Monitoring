@@ -1,0 +1,13 @@
+git add .
+
+git commit -m "First commit"
+
+git branch -M main
+
+git remote add origin https://github.com/shamiso-sithole/security_monitoring.git
+
+git push -u origin main
+
+heroku git:remote -a security-monitoring-system
+
+git push heroku main

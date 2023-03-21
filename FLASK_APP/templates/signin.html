@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Title -->
+        <title>Wind Turbine Solutions | Login</title>
+
+        <!-- Favicon -->
+        <link rel="icon" href="{{url_for('static', filename = '/img/core-img/turbine.ico')}}">
+
+        <!-- Core Stylesheet -->
+        <link href="{{url_for('static', filename = '/css/style.css')}}" rel="stylesheet">
+
+        <link href="{{url_for('static', filename = '/css/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/animate.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/magnific-popup.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/owl.carousel.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/font-awesome.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/elegant-font.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename = '/css/others/themify-icons.css')}}" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+        <!-- Responsive CSS -->
+        <link href="{{url_for('static', filename = '/css/responsive/responsive.css')}}" rel="stylesheet">
+
+        <script src="{{url_for('static', filename = '/js/script.js')}}"></script>
+    </head>
+
+    <!-- <body> -->
+
+        <!-- ***** Header Area Start ***** -->
+        <!-- <header class="header_area" id="header">
+            <div class="container-fluid h-100">
+                <div class="row h-100">
+                    <div class="col-12 h-100">
+                        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark bg-gradient">
+                            <div class="container">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">Blog</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">Pricing</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">FAQ's</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">Contact</a>
+                                </li>
+                            </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header> -->
+
+    <body>
+        <div class="scroll-up-btn">
+            <i class="fas fa-angle-up"></i>
+        </div>
+        <nav class="navbar">
+            <div class="max-width">
+                <div class="logo"><a href="#">Wind<span>Turbine</span></a></div>
+                <ul class="menu">
+                    <li><a href="{{url_for('index')}}" class="menu-btn">Home</a></li>
+                </ul>
+                <div class="menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+
+        <section class="login" id="login">
+            <div class="max-width">
+                <h2 class="title">Login</h2>
+                <div class="contact-content">
+                    <div class="column right">
+                        <div class="centralize">
+                            <form action="{{url_for('dashboard')}}" method="post">
+                                <div class="field">
+                                    <input type="email" name="email" id="email" placeholder="Email" required>
+                                </div>
+                                <div class="field">
+                                    <input type="password" name="password" id="password" placeholder="Password">
+                                </div>
+                                <div class="button">
+                                    <button type="submit">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

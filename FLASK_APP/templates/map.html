@@ -1,0 +1,209 @@
+<html lang="en">
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+
+    <script type="text/javascript">
+            FusionCharts.ready(function(){
+              var chartObj = new FusionCharts({
+            type: 'cylinder',
+            dataFormat: 'json',
+            renderAt: 'chart-container',
+            width: '350',
+            height: '370',
+            dataSource: {
+                "chart": {
+                    "theme": "fusion",
+                    "caption": "Water Level in Tank",
+                    "subcaption": "Ultrasonic sensor",
+                    "lowerLimit": "0",
+                    "upperLimit": "1000",
+                    "lowerLimitDisplay": "Empty",
+                    "upperLimitDisplay": "Full",
+                    "numberSuffix": " ltrs",
+                    "showValue": "1",
+                    "chartBottomMargin": "40",
+                    "showValue": "0",
+                                              "cylFillColor": "#35d1fd",
+                                              "cyloriginx": "160",
+                                              "cyloriginy": "270",
+                                              "cylradius": "120",
+                                              "cylheight": "250"
+                },
+                "value": "700",
+                "annotations": {
+                    "origw": "500",
+                    "origh": "290",
+                    "autoscale": "1",
+                    "groups": [{
+                        "id": "range",
+                        "items": [{
+                            "id": "rangeBg",
+                            "type": "rectangle",
+                            "x": "$canvasCenterX-65",
+                            "y": "$chartEndY-30",
+                            "tox": "$canvasCenterX +30",
+                            "toy": "$chartEndY-75",
+                            "fillcolor": "#6caa03"
+                        }, {
+                            "id": "rangeText",
+                            "type": "Text",
+                            "fontSize": "11",
+                            "fillcolor": "#333333",
+                            "text": "700 ltrs",
+                            "x": "$chartCenterX-45",
+                            "y": "$chartEndY-50"
+                        }]
+                    }]
+                }
+
+            },
+            "events": {
+                "rendered": function(evtObj, argObj) {
+                    var fuelVolume = 700;
+                    evtObj.sender.chartInterval = setInterval(function() {
+                        (fuelVolume < 100) ? (fuelVolume = 600) : "";
+                        var consVolume = fuelVolume - (Math.floor(Math.random() * 3));
+                        evtObj.sender.feedData && evtObj.sender.feedData("&value=" + consVolume);
+                        fuelVolume = consVolume;
+                    }, 2000);
+                },
+                //Using real time update event to update the annotation
+                //showing available volume of Diesel
+                "realTimeUpdateComplete": function(evt, arg) {
+                    var annotations = evt.sender.annotations,
+                        dataVal = evt.sender.getData(),
+                        colorVal = (dataVal >= 600) ? "#6caa03" : ((dataVal <= 300) ? "#e44b02" : "#f8bd1b");
+                    //Updating value
+                    annotations && annotations.update('rangeText', {
+                        "text": dataVal + " ltrs"
+                    });
+                    //Changing background color as per value
+                    annotations && annotations.update('rangeBg', {
+                        "fillcolor": colorVal
+                    });
+
+                },
+                "disposed": function(evt, arg) {
+                    clearInterval(evt.sender.chartInterval);
+                }
+            }
+        }
+        );
+              chartObj.render();
+            });
+    </script>
+  </head>
+
+  <body style='margin: 0'>
+    <!-- Navbar  -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark bg-gradient">
+      <div class="container">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="#" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">FAQ's</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div style="width: 100%; height: 100%" id="mapContainer"></div>
+
+    <div class="container" id="chart-container"></div>
+
+
+
+
+
+
+
+
+    <section class="fancy-about-us-area bg-gray">
+        <div class="container">
+            <div class="row">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">time</th>
+                      <th scope="col">Name of Employee</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">12/05/2022</th>
+                      <td>07:00</td>
+                      <td>Sithole Shamiso</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">12/05/2022</th>
+                      <td>08:15</td>
+                      <td>Unauthorized</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">12/05/2022</th>
+                      <td>09:03</td>
+                      <td>Dzvova Chido</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">12/05/2022</th>
+                      <td>10:47</td>
+                      <td>Chirenda Pamela</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">12/05/2022</th>
+                      <td>12:18</td>
+                      <td>Kaudani Strive</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script>
+          // Initialize the platform object:
+          var platform = new H.service.Platform({
+            'apikey': 'EJhkC6ax5pSJ2TYl4sL9MpT_yB6L2LKY2yU223feh5A'
+          });
+
+    	   const lat = -20.1641784;
+    	   const long = 28.6404443;
+
+    	// Obtain the default map types from the platform object
+          var maptypes = platform.createDefaultLayers();
+
+          // Instantiate (and display) a map object:
+          var map = new H.Map(
+            document.getElementById('mapContainer'),
+            maptypes.vector.normal.map,
+            {
+              zoom: 14,
+              center: { lat: lat, lng: long }
+            });
+
+    	var marker = new H.map.Marker({ lat: lat, lng: long });
+
+    	// Add the marker to the map:
+    	map.addObject(marker);
+
+    </script>
+  </body>
+</html>
