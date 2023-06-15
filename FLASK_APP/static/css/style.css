@@ -35,7 +35,7 @@ section{
     padding: 0 80px;
     margin: auto;
 }
-.about, .temperature, .humidity, .vibration, .speed, .services, .skills, .teams, .login, .contact, footer{
+.about, .temperature, .notifications, .humidity, .vibration, .speed, .services, .skills, .teams, .login, .contact, footer{
     font-family: 'Poppins', sans-serif;
 }
 
@@ -220,6 +220,11 @@ section .title::after{
 /* temperature section styling */
 .temperature .title::after{
     content: "Temperature";
+}
+
+/* notifications section styling */
+.notifications .title::after{
+    content: "Danger Warnings";
 }
 
 /* humidity section styling */

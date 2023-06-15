@@ -38,7 +38,7 @@
 
     <body>
         <div class="scroll-up-btn">
-            <i class="fas fa-angle-up"></i>
+            <i class="fa-sharp fa-regular fa-arrow-up"></i>
         </div>
         <nav class="navbar">
             <div class="max-width">
@@ -160,20 +160,20 @@
                     </div>
                     <div class="column right">
                         <div class="text">Message us</div>
-                        <form action="#">
+                        <form action="{{url_for('index')}}" method="post">
                             <div class="fields">
                                 <div class="field name">
-                                    <input type="text" placeholder="Name" required>
+                                    <input type="text" name="contactname" id="contactname" placeholder="Name" required>
                                 </div>
                                 <div class="field email">
-                                    <input type="email" placeholder="Email" required>
+                                    <input type="email" name="contactemail" id="contactemail" placeholder="Email" required>
                                 </div>
                             </div>
                             <div class="field">
-                                <input type="text" placeholder="Subject" required>
+                                <input type="text" name="contactsubject" id="contactsubject" placeholder="Subject" required>
                             </div>
                             <div class="field textarea">
-                                <textarea cols="30" rows="10" placeholder="Message.." required></textarea>
+                                <textarea cols="30" rows="10" name="contactmsg" id="contactmsg" placeholder="Message.." required></textarea>
                             </div>
                             <div class="button">
                                 <button type="submit">Send message</button>
