@@ -11,21 +11,14 @@ app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'windturbinewarning@gmail.com'
-app.config['MAIL_PASSWORD'] = 'pdnkocqesmcrhbpi'
+app.config['MAIL_USERNAME'] = '**********@gmail.com'
+app.config['MAIL_PASSWORD'] = '****************'
 
 mail = Mail(app)
 
 @app.route("/", methods = ['POST', 'GET'])
 def index():
-    # conn = sqlite3.connect('databasefin.db')
-    # c = conn.cursor()  
     
-    # c.execute('CREATE TABLE admin (email TEXT, password TEXT)')
-    # c.execute('CREATE TABLE turbinedata (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, temperature REAL, humidity REAL, vibration REAL, speed REAL)')
-    # conn.commit()
-    # conn.close()
-
     if request.method == 'POST':
 
         contact_name = request.form.get("contactname")
@@ -33,9 +26,8 @@ def index():
         contact_subject = request.form.get("contactsubject")
         contact_msg = request.form.get("contactmsg")
 
-        e_mail = 'tapiwanashemakani99@gmail.com'
-        # e_mail = 'mskaudani@gmail.com'
-        msg = Message(contact_subject, sender = 'windturbinewarning@gmail.com', recipients = [e_mail])
+        e_mail = '****************@gmail.com'
+        msg = Message(contact_subject, sender = '***************@gmail.com', recipients = [e_mail])
         msg.body = "You have a message from " + contact_email + "\n\n" + contact_msg + "\n\n" + contact_name
         mail.send(msg)
 
@@ -74,7 +66,7 @@ def post():
     max_vibration = 3000.0
     max_speed = 180.0
 
-    e_mail = 'tapiwanashemakani99@gmail.com'
+    e_mail = '***************@gmail.com'
     msg = Message('Danger Warning', sender = 'windturbinewarning@gmail.com', recipients = [e_mail])      
 
     if float(temperature) > max_temp:
@@ -193,18 +185,4 @@ def dashboard():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port= 8090, debug=True)
-    # app.run(debug=True)
     app.secret_key = "tapiwa"
-
-
-    # c.execute('CREATE TABLE admin (email TEXT, password TEXT)')
-
-    # emailll = 'tapiwanashemakani99@gmail.com'
-    # passworddd = 'tapiwa'
-    # s_password = sha256_crypt.hash(str(passworddd))
-    # print(s_password)
-    # sql_command = "INSERT INTO admin (email, password) VALUES (?, ?)"
-    # values = (emailll, s_password)
-    # c.execute(sql_command, values)
-    # sql_command = "INSERT INTO sensordata (temperature, humidity, vibration, speed) VALUES (?, ?, ?, ?)"
-    # values = (one, two, three, four,)
